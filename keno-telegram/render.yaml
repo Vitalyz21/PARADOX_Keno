@@ -15,5 +15,5 @@ services:
         value: production
       - key: DB_PATH
         value: /var/data/keno.sqlite
-      - key: BOT_TOKEN
+      - key: 9223135268:AAESd5ErO5z-xcYLPjOAvycsW3LNwRRTIwg
         sync: false
