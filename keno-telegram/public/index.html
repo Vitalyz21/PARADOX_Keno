@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050907">
+  <title>PARADOX KENO — Telegram Mini App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <button class="menu-icon" aria-label="Меню">☰</button>
+    <div class="brand"><span class="brand-mark">P</span><div><b>PARADOX</b><small>_ OFFICIALL KENO</small></div></div>
+    <div class="wallet"><span class="gem">◆</span><div><small>ДЕМО-БАЛАНС</small><strong id="balance">— DEMO</strong></div></div>
+    <div class="profile-dot">●</div>
+  </header>
+
+  <main>
+    <div class="tagline"><span>MORE THAN JUST</span><b>A GAME</b></div>
+    <section class="game-layout">
+      <section class="board-panel">
+        <div class="board-heading">
+          <div><span class="eyebrow">PARADOX KENO</span><h1>ВЫБЕРИ ЧИСЛА</h1></div>
+          <div class="counter"><b id="pick-count">0</b><span> / 10</span></div>
+        </div>
+        <div class="number-grid" id="number-grid" aria-label="Выбор чисел от 1 до 40"></div>
+        <div class="board-actions">
+          <button class="outline-button" id="random">⟳ Автовыбор</button>
+          <button class="outline-button" id="clear">⌫ Очистить</button>
+        </div>
+        <div class="draw-area">
+          <div class="section-title"><span class="eyebrow">ПОСЛЕДНИЙ РОЗЫГРЫШ</span><span class="status" id="round-status">ОЖИДАНИЕ</span></div>
+          <div class="draw-grid" id="draw-grid"><span class="empty-state">Здесь появятся 10 выпавших чисел</span></div>
+          <p id="result-summary" class="result-summary">Выбери числа и нажми «Играть».</p>
+        </div>
+      </section>
+
+      <aside class="control-panel">
+        <div class="multiplier-card"><small>ТЕКУЩИЙ РЕЖИМ</small><strong id="mode-label">MEDIUM</strong><span>DEMO ROUND</span></div>
+        <div class="mini-stat"><span>◆</span><b id="bet-value">10</b><small>DEMO</small></div>
+        <div class="mode-switch">
+          <button class="mode active" data-mode="medium"><b>MEDIUM</b><small>Сбалансированный</small></button>
+          <button class="mode" data-mode="paradox_killer"><b>PARADOX KILLER</b><small>Повышенная сложность</small></button>
+        </div>
+        <div class="bet-title"><span>СУММА СТАВКИ</span><small>ВИРТУАЛЬНЫЕ КРЕДИТЫ</small></div>
+        <div class="bet-row">
+          <button class="step" id="bet-minus" aria-label="Уменьшить">−</button>
+          <strong id="bet-number">10</strong>
+          <button class="step" id="bet-plus" aria-label="Увеличить">+</button>
+        </div>
+        <div class="bet-presets">
+          <button data-bet="1">1</button><button data-bet="5">5</button><button data-bet="10" class="chosen">10</button><button data-bet="25">25</button><button data-bet="50">50</button><button data-bet="100">100</button>
+        </div>
+        <button class="play-button" id="play"><span>▶</span><b>ИГРАТЬ</b></button>
+        <p class="disclaimer">DEMO-кредиты не имеют денежной стоимости. Пополнение, перевод и вывод средств отсутствуют.</p>
+      </aside>
+    </section>
+
+    <section class="below-grid">
+      <section class="panel">
+        <div class="section-title"><div><span class="eyebrow">ТАБЛИЦА ВЫПЛАТ</span><h2>Коэффициенты</h2></div><b id="table-mode">MEDIUM</b></div>
+        <div class="table-wrap"><table id="paytable"><thead><tr><th>Совпадения</th><th>Коэффициент</th></tr></thead><tbody></tbody></table></div>
+      </section>
+      <section class="panel">
+        <div class="section-title"><div><span class="eyebrow">ТВОЯ ИГРА</span><h2>История раундов</h2></div></div>
+        <div id="history"><p class="empty-state">Пока нет сыгранных раундов.</p></div>
+      </section>
+    </section>
+  </main>
+  <nav class="bottom-nav">
+    <a class="active" href="#top"><span>⌂</span>ГЛАВНАЯ</a>
+    <a href="#number-grid"><span>⌕</span>ИГРА</a>
+    <a href="#history"><span>▤</span>ИСТОРИЯ</a>
+    <a href="#paytable"><span>♜</span>ВЫПЛАТЫ</a>
+  </nav>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="/app.js"></script>
+</body>
+</html>
