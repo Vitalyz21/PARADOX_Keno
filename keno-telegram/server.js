@@ -6,199 +6,220 @@ const path = require("path");
 const Database = require("better-sqlite3");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT || 3000);
 const BOT_TOKEN = process.env.BOT_TOKEN || "";
-const DB_PATH = process.env.DB_PATH || "./keno.sqlite";
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, "data", "shuffle.sqlite");
+const ADMIN_IDS = new Set((process.env.ADMIN_IDS || "").split(",").map(x => x.trim()).filter(Boolean));
+const CLAIM_URL = process.env.CLAIM_URL || "https://shuffle.com/";
+const GUIDE_URL = process.env.GUIDE_URL || "https://shuffle.com/";
+const CLAIMER_BOT_URL = process.env.CLAIMER_BOT_URL || "https://t.me/";
+const POLL_TIMEOUT = 25;
+
+if (!BOT_TOKEN) console.warn("WARNING: BOT_TOKEN is not set; Telegram bot polling is disabled.");
+if (!ADMIN_IDS.size) console.warn("WARNING: ADMIN_IDS is empty; no Telegram user can use /admin.");
+
+require("fs").mkdirSync(path.dirname(DB_PATH), { recursive: true });
 const db = new Database(DB_PATH);
-
-app.use(express.json({ limit: "32kb" }));
-app.use(express.static(path.join(__dirname, "public")));
-
 db.pragma("journal_mode = WAL");
 db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    user_id TEXT PRIMARY KEY,
-    username TEXT,
-    balance INTEGER NOT NULL DEFAULT 100,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );
-  CREATE TABLE IF NOT EXISTS rounds (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id TEXT NOT NULL,
-    mode TEXT NOT NULL,
-    bet INTEGER NOT NULL,
-    picks TEXT NOT NULL,
-    drawn TEXT NOT NULL,
-    hits INTEGER NOT NULL,
-    multiplier REAL NOT NULL,
-    payout INTEGER NOT NULL,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );
-  CREATE INDEX IF NOT EXISTS rounds_user_idx ON rounds(user_id, id DESC);
+CREATE TABLE IF NOT EXISTS subscribers (
+  user_id TEXT PRIMARY KEY,
+  username TEXT,
+  first_name TEXT,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS promos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  amount TEXT NOT NULL,
+  claims TEXT NOT NULL,
+  wager TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  created_by TEXT NOT NULL,
+  published INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS deliveries (
+  promo_id INTEGER NOT NULL,
+  user_id TEXT NOT NULL,
+  sent_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (promo_id, user_id)
+);
 `);
 
-// Multipliers are fictional game rules, not cash odds.
-// 10-pick values preserve the agreed values. 1–9 pick schedules are starter
-// values and can be tuned in this one file before launch.
-const PAYTABLES = {
-  medium: {
-    1: {1: 3.5},
-    2: {2: 12},
-    3: {2: 2, 3: 45},
-    4: {2: 1.2, 3: 8, 4: 100},
-    5: {3: 2, 4: 15, 5: 250},
-    6: {3: 1.5, 4: 5, 5: 40, 6: 400},
-    7: {3: 1, 4: 3, 5: 12, 6: 100, 7: 500},
-    8: {3: 1, 4: 2.5, 5: 8, 6: 30, 7: 200, 8: 700},
-    9: {4: 2, 5: 5, 6: 20, 7: 100, 8: 400, 9: 900},
-    10: {4: 3.5, 5: 8, 6: 13, 7: 63, 8: 500, 9: 800, 10: 1000}
-  },
-  paradox_killer: {
-    1: {1: 2.8},
-    2: {2: 8},
-    3: {2: 1.8, 3: 30},
-    4: {2: 1, 3: 6, 4: 60},
-    5: {3: 1.8, 4: 10, 5: 120},
-    6: {3: 1.3, 4: 4, 5: 25, 6: 200},
-    7: {3: 1, 4: 2.5, 5: 8, 6: 50, 7: 300},
-    8: {3: 1, 4: 2, 5: 6, 6: 20, 7: 100, 8: 500},
-    9: {4: 1.5, 5: 4, 6: 15, 7: 60, 8: 250, 9: 700},
-    10: {3: 1.6, 4: 2, 5: 4, 6: 7, 7: 26, 8: 100, 9: 500, 10: 1000}
-  }
+app.get("/health", (_req, res) => res.json({ ok: true, service: "shuffle-promo-bot" }));
+app.get("/", (_req, res) => res.type("text").send("Shuffle promo bot is running."));
+app.listen(PORT, () => console.log(`HTTP health server listening on ${PORT}`));
+
+const api = (method, body = {}) => fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify(body)
+}).then(async r => {
+  const data = await r.json();
+  if (!data.ok) throw new Error(data.description || `Telegram API ${method} failed`);
+  return data.result;
+});
+
+const send = (chatId, text, extra = {}) =>
+  api("sendMessage", { chat_id: chatId, text, ...extra });
+
+const mainKeyboard = {
+  inline_keyboard: [
+    [{ text: "🎁 Claim", url: CLAIM_URL }],
+    [{ text: "📘 Guide", url: GUIDE_URL }],
+    [{ text: "🤖 Shuffle Code Claimer Bot", url: CLAIMER_BOT_URL }]
+  ]
 };
 
-function verifyTelegramInitData(initData) {
-  if (!BOT_TOKEN) return null;
-  if (!initData || typeof initData !== "string") return null;
-
-  const params = new URLSearchParams(initData);
-  const hash = params.get("hash");
-  if (!hash) return null;
-  params.delete("hash");
-
-  const authDate = Number(params.get("auth_date") || 0);
-  if (!authDate || Math.abs(Date.now() / 1000 - authDate) > 86400) return null;
-
-  const dataCheckString = [...params.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([key, value]) => `${key}=${value}`)
-    .join("\n");
-
-  const secretKey = crypto.createHmac("sha256", "WebAppData").update(BOT_TOKEN).digest();
-  const calculated = crypto.createHmac("sha256", secretKey).update(dataCheckString).digest("hex");
-
-  const a = Buffer.from(calculated, "hex");
-  const b = Buffer.from(hash, "hex");
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-
-  try {
-    const user = JSON.parse(params.get("user") || "{}");
-    if (!user.id) return null;
-    return {
-      id: String(user.id),
-      username: user.username || [user.first_name, user.last_name].filter(Boolean).join(" ") || "Player"
-    };
-  } catch {
-    return null;
-  }
+function isAdmin(id) { return ADMIN_IDS.has(String(id)); }
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 }
-
-function getIdentity(req) {
-  const verified = verifyTelegramInitData(req.get("x-telegram-init-data") || "");
-  if (verified) return verified;
-
-  // Browser preview works without a bot token. Production Telegram use should
-  // always set BOT_TOKEN in Render so requests are bound to verified Telegram users.
-  if (!BOT_TOKEN && process.env.NODE_ENV !== "production") {
-    return { id: process.env.DEV_USER_ID || "local-player", username: "Local Player" };
-  }
-  return null;
+function promoText(p) {
+  return `🎁 <b>SHUFFLE PROMO CODE</b>\n\n` +
+    `🎟 <b>Code:</b> <code>${escapeHtml(p.code)}</code>\n` +
+    `💰 <b>Amount:</b> ${escapeHtml(p.amount)}\n` +
+    `👥 <b>Claims:</b> ${escapeHtml(p.claims)}\n` +
+    `🔄 <b>Wager:</b> ${escapeHtml(p.wager)}\n` +
+    `⏳ <b>Expires:</b> ${escapeHtml(p.expires_at)}`;
 }
+const states = new Map();
 
-function requireUser(req, res, next) {
-  const identity = getIdentity(req);
-  if (!identity) {
-    return res.status(401).json({ error: "Open this game from its Telegram bot." });
-  }
-  db.prepare(`
-    INSERT INTO users(user_id, username) VALUES(?, ?)
-    ON CONFLICT(user_id) DO UPDATE SET username=excluded.username
-  `).run(identity.id, identity.username);
-  req.player = identity;
-  next();
+async function askNext(chatId, userId, field) {
+  const prompts = {
+    code: "Отправь промокод (только текст).",
+    amount: "Укажи сумму промокода.",
+    claims: "Укажи количество Claims.",
+    wager: "Укажи Wager.",
+    expires_at: "Укажи срок действия (например: 2026-12-31 23:59 UTC)."
+  };
+  states.set(String(userId), { step: field, promo: states.get(String(userId))?.promo || {} });
+  await send(chatId, prompts[field], { reply_markup: { force_reply: true } });
 }
-
-function getUser(userId) {
-  return db.prepare("SELECT user_id, username, balance FROM users WHERE user_id=?").get(userId);
+async function beginPromo(chatId, userId) {
+  states.set(String(userId), { step: "code", promo: {} });
+  await askNext(chatId, userId, "code");
 }
-
-app.get("/health", (_req, res) => res.json({ ok: true }));
-
-app.get("/api/me", requireUser, (req, res) => {
-  const user = getUser(req.player.id);
-  const history = db.prepare(`
-    SELECT id, mode, bet, picks, drawn, hits, multiplier, payout, created_at
-    FROM rounds WHERE user_id=? ORDER BY id DESC LIMIT 12
-  `).all(req.player.id).map(row => ({
-    ...row, picks: JSON.parse(row.picks), drawn: JSON.parse(row.drawn)
-  }));
-  res.json({ user, history, paytables: PAYTABLES });
-});
-
-app.post("/api/play", requireUser, (req, res) => {
-  const { picks, bet, mode } = req.body || {};
-  if (!Array.isArray(picks) || picks.length < 1 || picks.length > 10 ||
-      picks.some(n => !Number.isInteger(n) || n < 1 || n > 40) ||
-      new Set(picks).size !== picks.length) {
-    return res.status(400).json({ error: "Choose 1–10 different numbers from 1 to 40." });
-  }
-  if (!Number.isInteger(bet) || bet < 1 || bet > 10000) {
-    return res.status(400).json({ error: "Bet must be between 1 and 10,000 DEMO." });
-  }
-  if (!Object.hasOwn(PAYTABLES, mode)) {
-    return res.status(400).json({ error: "Unknown game mode." });
-  }
-
-  const play = db.transaction(() => {
-    const user = getUser(req.player.id);
-    if (!user || user.balance < bet) throw new Error("Not enough DEMO credits.");
-
-    const pool = Array.from({ length: 40 }, (_, i) => i + 1);
-    const drawn = [];
-    for (let i = 0; i < 10; i++) {
-      const j = crypto.randomInt(pool.length);
-      drawn.push(pool.splice(j, 1)[0]);
+async function publishPromo(chatId, userId, promoId) {
+  const promo = db.prepare("SELECT * FROM promos WHERE id=?").get(promoId);
+  if (!promo) return send(chatId, "Промокод не найден.");
+  if (promo.published) return send(chatId, "Этот промокод уже опубликован.");
+  const users = db.prepare("SELECT user_id FROM subscribers WHERE active=1").all();
+  let sent = 0, failed = 0;
+  for (const u of users) {
+    try {
+      await send(u.user_id, promoText(promo), {
+        parse_mode: "HTML",
+        reply_markup: mainKeyboard,
+        disable_web_page_preview: true
+      });
+      db.prepare("INSERT OR IGNORE INTO deliveries(promo_id,user_id) VALUES(?,?)").run(promoId, u.user_id);
+      sent++;
+      await new Promise(resolve => setTimeout(resolve, 45));
+    } catch (e) {
+      failed++;
+      if (/blocked|deactivated|chat not found/i.test(e.message)) {
+        db.prepare("UPDATE subscribers SET active=0 WHERE user_id=?").run(u.user_id);
+      }
+      console.error("Delivery failed:", u.user_id, e.message);
     }
-    drawn.sort((a, b) => a - b);
-
-    const sortedPicks = [...picks].sort((a, b) => a - b);
-    const hits = sortedPicks.filter(n => drawn.includes(n)).length;
-    const multiplier = PAYTABLES[mode][sortedPicks.length][hits] || 0;
-    const payout = Math.floor(bet * multiplier);
-    const balance = user.balance - bet + payout;
-
-    db.prepare("UPDATE users SET balance=? WHERE user_id=?").run(balance, req.player.id);
-    const result = db.prepare(`
-      INSERT INTO rounds(user_id, mode, bet, picks, drawn, hits, multiplier, payout)
-      VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(req.player.id, mode, bet, JSON.stringify(sortedPicks),
-      JSON.stringify(drawn), hits, multiplier, payout);
-
-    return {
-      id: result.lastInsertRowid, picks: sortedPicks, drawn, hits,
-      multiplier, payout, net: payout - bet, balance, bet, mode
-    };
-  });
-
-  try {
-    res.json(play());
-  } catch (error) {
-    res.status(400).json({ error: error.message || "Could not play this round." });
   }
-});
+  db.prepare("UPDATE promos SET published=1 WHERE id=?").run(promoId);
+  await send(chatId, `✅ Публикация завершена.\nОтправлено: ${sent}\nОшибок: ${failed}\nПолучателей в базе: ${users.length}`);
+}
+async function handleMessage(m) {
+  if (!m || !m.chat || !m.from) return;
+  const chatId = m.chat.id, userId = String(m.from.id);
+  const text = (m.text || "").trim();
 
-app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
+  if (text === "/start" || text.startsWith("/start ")) {
+    db.prepare(`INSERT INTO subscribers(user_id,username,first_name,active)
+      VALUES(?,?,?,1) ON CONFLICT(user_id) DO UPDATE SET username=excluded.username,
+      first_name=excluded.first_name,active=1`).run(userId, m.from.username || "", m.from.first_name || "");
+    await send(chatId, "Добро пожаловать! Здесь публикуются Shuffle-промокоды.\n\nНажми Claim, чтобы перейти к активации. Новые публикации будут приходить сюда.", {
+      reply_markup: mainKeyboard, disable_web_page_preview: true
+    });
+    return;
+  }
 
-app.listen(PORT, () => {
-  console.log(`Keno Mini App listening on port ${PORT}`);
-});
+  if (text === "/admin") {
+    if (!isAdmin(userId)) return send(chatId, "⛔ Нет доступа.");
+    const count = db.prepare("SELECT COUNT(*) AS n FROM subscribers WHERE active=1").get().n;
+    await send(chatId, `🛠 <b>Панель администратора</b>\nАктивных подписчиков: ${count}`, {
+      parse_mode: "HTML",
+      reply_markup: { inline_keyboard: [
+        [{ text: "➕ Добавить промокод", callback_data: "promo:add" }],
+        [{ text: "📋 Последние промокоды", callback_data: "promo:list" }]
+      ]}
+    });
+    return;
+  }
+
+  const state = states.get(userId);
+  if (state && isAdmin(userId) && text && !text.startsWith("/")) {
+    const fields = ["code", "amount", "claims", "wager", "expires_at"];
+    const currentIndex = fields.indexOf(state.step);
+    state.promo[state.step] = text.slice(0, 300);
+    const next = fields[currentIndex + 1];
+    if (next) {
+      states.set(userId, state);
+      await askNext(chatId, userId, next);
+    } else {
+      const p = state.promo;
+      const result = db.prepare(`INSERT INTO promos(code,amount,claims,wager,expires_at,created_by)
+        VALUES(?,?,?,?,?,?)`).run(p.code, p.amount, p.claims, p.wager, p.expires_at, userId);
+      states.delete(userId);
+      const promo = db.prepare("SELECT * FROM promos WHERE id=?").get(result.lastInsertRowid);
+      await send(chatId, `Проверь публикацию:\n\n${promoText(promo)}`, {
+        parse_mode: "HTML",
+        reply_markup: { inline_keyboard: [
+          [{ text: "🚀 Опубликовать подписчикам", callback_data: `promo:publish:${promo.id}` }],
+          [{ text: "❌ Отменить", callback_data: "promo:cancel" }]
+        ]}
+      });
+    }
+    return;
+  }
+}
+async function handleCallback(q) {
+  const userId = String(q.from.id), chatId = q.message?.chat?.id;
+  await api("answerCallbackQuery", { callback_query_id: q.id }).catch(() => {});
+  if (!chatId) return;
+  const data = q.data || "";
+  if (!isAdmin(userId)) return send(chatId, "⛔ Нет доступа.");
+  if (data === "promo:add") return beginPromo(chatId, userId);
+  if (data === "promo:cancel") {
+    states.delete(userId);
+    return send(chatId, "Добавление отменено.");
+  }
+  if (data === "promo:list") {
+    const rows = db.prepare("SELECT id,code,published,created_at FROM promos ORDER BY id DESC LIMIT 10").all();
+    if (!rows.length) return send(chatId, "Промокодов пока нет.");
+    return send(chatId, rows.map(p => `#${p.id} ${p.code} — ${p.published ? "опубликован" : "черновик"} (${p.created_at})`).join("\n"));
+  }
+  const match = data.match(/^promo:publish:(\d+)$/);
+  if (match) return publishPromo(chatId, userId, Number(match[1]));
+}
+async function poll() {
+  let offset = 0;
+  while (true) {
+    try {
+      const updates = await api("getUpdates", { offset, timeout: POLL_TIMEOUT, allowed_updates: ["message", "callback_query"] });
+      for (const u of updates) {
+        offset = u.update_id + 1;
+        try {
+          if (u.message) await handleMessage(u.message);
+          if (u.callback_query) await handleCallback(u.callback_query);
+        } catch (e) { console.error("Update handler error:", e); }
+      }
+    } catch (e) {
+      console.error("Telegram polling error:", e.message);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+  }
+}
+if (BOT_TOKEN) poll();
+
+process.on("SIGTERM", () => { try { db.close(); } finally { process.exit(0); } });
