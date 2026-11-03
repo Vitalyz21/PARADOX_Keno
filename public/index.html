@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080d0c">
+  <meta name="description" content="PARADOX KENO — виртуальная игра Keno. 40 чисел, 10 выпавших, четыре уровня риска.">
+  <title>PARADOX KENO — Originals</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="PARADOX KENO home">
+      <span class="brand-symbol"><span>P</span></span>
+      <span class="brand-word"><strong>PARADOX</strong><em>KENO</em><small>ORIGINAL GAME</small></span>
+    </a>
+    <div class="top-actions">
+      <div class="balance-card"><span class="wallet-icon">◈</span><div><small>ВАШ БАЛАНС</small><strong id="balance">1 000.00 <i>USDP</i></strong></div></div>
+      <button class="icon-btn" id="soundBtn" aria-label="Звук" title="Звук"><span id="soundIcon">♫</span></button>
+      <button class="icon-btn" id="historyJump" aria-label="История" title="История">↻</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-line">
+      <div><div class="eyebrow"><span class="live-dot"></span> PARADOX ORIGINALS <span class="eyebrow-sep">/</span> KENO 40</div><h1>PLAY THE <span>ODDS.</span></h1><p>Выбери свои числа. Остальное решит случай.</p></div>
+      <div class="draw-info"><b>10</b><span>ЧИСЕЛ В<br>КАЖДОМ РАУНДЕ</span></div>
+    </section>
+
+    <section class="game-layout">
+      <aside class="left-column">
+        <section class="glass-panel selection-panel">
+          <div class="panel-heading"><div><span class="overline">01 / YOUR STRATEGY</span><h2>ВЫБОР ЧИСЕЛ</h2></div><span class="counter" id="pickCount">0 <i>/ 10</i></span></div>
+          <div class="pick-meter"><span id="pickMeter"></span></div>
+          <div class="pick-shortcuts"><button class="text-btn" id="randomBtn">✦ AUTO PICK</button><button class="text-btn" id="clearBtn">СБРОСИТЬ</button></div>
+          <div class="selected-preview" id="selectedPreview"><span>Выбери от 1 до 10 чисел на поле</span></div>
+        </section>
+
+        <section class="glass-panel stake-panel">
+          <div class="panel-heading"><div><span class="overline">02 / YOUR WAGER</span><h2>СТАВКА</h2></div><span class="virtual-tag">VIRTUAL</span></div>
+          <div class="bet-control"><button class="step-btn" id="half" aria-label="Половина ставки">−</button><label class="bet-input-wrap"><input id="bet" type="number" min="0.10" max="1000" step="0.10" value="10.00" inputmode="decimal"><span>USDP</span></label><button class="step-btn" id="double" aria-label="Удвоить ставку">+</button></div>
+          <div class="bet-presets"><button data-bet="1">1</button><button data-bet="5">5</button><button data-bet="10" class="preset-active">10</button><button data-bet="25">25</button><button data-bet="50">50</button></div>
+          <div class="potential-card"><div><small>ВОЗМОЖНАЯ ВЫПЛАТА</small><strong id="potential">—</strong></div><span class="potential-mark">↗</span><p id="potentialHint">Выбери числа, чтобы увидеть максимум</p></div>
+        </section>
+      </aside>
+
+      <section class="glass-panel board-panel">
+        <div class="board-top"><div><span class="overline">03 / NUMBER MATRIX</span><h2>ИГРОВОЕ ПОЛЕ</h2></div><div class="board-legend"><span><i class="legend-pick"></i> Выбрано</span><span><i class="legend-hit"></i> Выпало</span></div></div>
+        <div class="number-grid" id="grid" aria-label="Поле Keno от 1 до 40"></div>
+        <div class="board-foot"><span><b id="gridStatus">ОЖИДАНИЕ ВЫБОРА</b></span><span>01 — 40 <i>•</i> 5 × 8</span></div>
+      </section>
+
+      <aside class="right-column">
+        <section class="glass-panel risk-panel">
+          <div class="panel-heading"><div><span class="overline">04 / VOLATILITY</span><h2>УРОВЕНЬ РИСКА</h2></div></div>
+          <div class="risk-list">
+            <button class="risk active" data-risk="Classic"><span class="risk-glyph">▥</span><span><b>CLASSIC</b><small>Классика</small></span><i>●</i></button>
+            <button class="risk" data-risk="Low"><span class="risk-glyph">▤</span><span><b>LOW</b><small>Низкий</small></span><i>●</i></button>
+            <button class="risk" data-risk="Medium"><span class="risk-glyph">▦</span><span><b>MEDIUM</b><small>Средний</small></span><i>●</i></button>
+            <button class="risk" data-risk="High"><span class="risk-glyph">▧</span><span><b>HIGH</b><small>Высокий</small></span><i>●</i></button>
+          </div>
+        </section>
+        <section class="glass-panel payout-panel">
+          <div class="panel-heading"><div><span class="overline">05 / REWARD TABLE</span><h2>МНОЖИТЕЛИ</h2></div><span class="mode-pill" id="tableMode">CLASSIC</span></div>
+          <div class="payout-caption"><span>ПОПАДАНИЯ</span><span>МНОЖИТЕЛЬ</span></div>
+          <div class="payout-list" id="paytable"><div class="table-empty">Выбери количество чисел</div></div>
+          <div class="payout-foot">Множитель × ставка = выплата</div>
+        </section>
+      </aside>
+    </section>
+
+    <section class="play-dock">
+      <div class="dock-copy"><span class="live-dot"></span><div><b>ГОТОВ К ИГРЕ?</b><small>ТВОЙ РАУНД. ТВОИ ПРАВИЛА.</small></div></div>
+      <button class="play-btn" id="playBtn"><span class="play-icon">▶</span><span>ИГРАТЬ</span><b>→</b></button>
+      <div class="dock-note">10 / 40 <span>•</span> FAIR RANDOM DRAW</div>
+    </section>
+
+    <section class="round-panel glass-panel" id="roundPanel" aria-live="polite">
+      <div class="round-head"><div><span class="overline">ROUND FEEDBACK</span><h2 id="roundTitle">ПОСЛЕДНИЙ РАУНД</h2></div><span class="round-badge" id="roundBadge">ОЖИДАНИЕ</span></div>
+      <div class="drawn-row" id="drawn"></div>
+      <div class="round-summary"><div><small>ПОПАДАНИЯ</small><b id="hits">—</b></div><div><small>МНОЖИТЕЛЬ</small><b id="multiplier">—</b></div><div><small>ВЫПЛАТА</small><b id="payout">—</b></div><div><small>ИЗМЕНЕНИЕ БАЛАНСА</small><b id="net">—</b></div></div>
+    </section>
+
+    <section class="history-panel glass-panel" id="historySection">
+      <div class="panel-heading"><div><span class="overline">YOUR SESSION</span><h2>ИСТОРИЯ РАУНДОВ</h2></div><span class="history-count" id="historyCount">0 РАУНДОВ</span></div>
+      <div id="history" class="history-list"><div class="history-empty">История появится после первой игры</div></div>
+    </section>
+  </main>
+  <footer><span class="footer-brand">PARADOX <i>KENO</i></span><span>PLAY SMART. STAY IN CONTROL.</span><span>VIRTUAL USDP ONLY</span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/app.js" defer></script>
+</body>
+</html>
