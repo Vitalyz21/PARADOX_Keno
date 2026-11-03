@@ -1,7 +1,630 @@
-:root{color-scheme:dark;--bg:#080d0c;--panel:#101816;--panel2:#151f1b;--line:#263a32;--line2:#3a5146;--text:#f1f5f1;--muted:#82958a;--teal:#28e0c0;--teal2:#0b9e87;--green:#a7d7a9;--bronze:#b68b5d;--bronze2:#654a32;--red:#d98078;--shadow:0 18px 55px #0008}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#17362e 0,transparent 42%),linear-gradient(145deg,#080d0c,#0a100e 55%,#080b0a);color:var(--text);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}.ambient{position:fixed;pointer-events:none;z-index:-1;filter:blur(65px);opacity:.14;border-radius:50%}.ambient-a{width:340px;height:340px;background:#00d7b1;top:140px;left:-220px}.ambient-b{width:300px;height:300px;background:#a46b36;right:-220px;top:520px}.app-shell{max-width:1440px;margin:auto;padding:0 34px 28px}.topbar{height:92px;border-bottom:1px solid #26352e;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:13px;color:inherit;text-decoration:none}.brand-symbol{width:48px;height:48px;border:1px solid var(--bronze);transform:skew(-9deg);display:grid;place-items:center;box-shadow:inset 0 0 18px #c49a5730,0 0 20px #00d4b21c}.brand-symbol span{font:900 37px/1 'Barlow Condensed';color:var(--teal);text-shadow:2px 2px 0 #8a653f}.brand-word{display:grid;line-height:.85}.brand-word strong{font:900 28px/ .95 'Barlow Condensed';letter-spacing:2px;text-shadow:0 2px 10px #fff2}.brand-word em{font:800 21px/1 'Barlow Condensed';font-style:italic;letter-spacing:5px;color:var(--teal);margin-top:3px}.brand-word small{font-size:7px;letter-spacing:3px;color:var(--bronze);margin-top:6px}.top-actions{display:flex;align-items:center;gap:10px}.balance-card{display:flex;align-items:center;gap:12px;padding:10px 17px;border:1px solid var(--bronze2);border-radius:10px;background:linear-gradient(120deg,#151c18,#0d1411);box-shadow:inset 0 0 18px #bd8b4820}.wallet-icon{font-size:26px;color:var(--teal)}.balance-card small{display:block;font-size:8px;letter-spacing:1.6px;color:var(--muted)}.balance-card strong{display:block;font-size:15px;margin-top:3px;font-variant-numeric:tabular-nums}.balance-card i{font-style:normal;color:var(--teal);font-size:11px}.icon-btn{width:42px;height:42px;border:1px solid #3b4a40;border-radius:9px;background:#121a16;color:#c8d6cd;font-size:20px;cursor:pointer;transition:.2s}.icon-btn:hover{border-color:var(--teal);color:var(--teal)}.hero-line{display:flex;align-items:center;justify-content:space-between;padding:30px 3px 25px}.eyebrow,.overline{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--bronze)}.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);margin-right:7px}.eyebrow-sep{color:#56645b;padding:0 7px}.hero-line h1{font:900 48px/.98 'Barlow Condensed';letter-spacing:2px;margin:9px 0 5px}.hero-line h1 span{color:var(--teal);font-style:italic;text-shadow:0 0 25px #22d9b533}.hero-line p{font-size:12px;color:var(--muted);margin:0}.draw-info{display:flex;align-items:center;gap:13px;padding:10px 17px;border-left:1px solid var(--bronze2)}.draw-info b{font:900 38px/.9 'Barlow Condensed';color:var(--teal)}.draw-info span{font-size:8px;line-height:1.5;letter-spacing:1.3px;color:var(--muted);font-weight:800}.game-layout{display:grid;grid-template-columns:minmax(225px,.9fr) minmax(390px,1.65fr) minmax(225px,.9fr);gap:14px;align-items:stretch}.left-column,.right-column{display:flex;flex-direction:column;gap:14px}.glass-panel{background:linear-gradient(145deg,#151f1aeb,#0e1512f5);border:1px solid #35483c;border-radius:13px;box-shadow:var(--shadow),inset 0 1px #ffffff0b;position:relative;overflow:hidden}.glass-panel:before{content:"";position:absolute;left:12px;right:12px;top:0;height:1px;background:linear-gradient(90deg,transparent,#b58a5b99,transparent)}.selection-panel,.stake-panel,.risk-panel,.payout-panel{padding:17px}.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.panel-heading h2,.board-top h2,.round-head h2{font:800 18px/.95 'Barlow Condensed';letter-spacing:1.4px;margin:5px 0 0}.panel-heading .overline,.board-top .overline,.round-head .overline{font-size:8px;letter-spacing:1.7px}.counter{font:800 21px 'Barlow Condensed';color:var(--teal)}.counter i{font-style:normal;font-size:13px;color:var(--muted)}.pick-meter{height:3px;background:#26372f;border-radius:3px;overflow:hidden;margin:-4px 0 13px}.pick-meter span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--teal2),var(--teal));box-shadow:0 0 10px var(--teal);transition:width .25s}.pick-shortcuts{display:flex;justify-content:space-between;gap:8px}.text-btn{border:0;background:none;color:var(--teal);font:800 9px Manrope;letter-spacing:.8px;padding:5px 0;cursor:pointer}.text-btn+ .text-btn{color:var(--muted)}.selected-preview{min-height:48px;display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding-top:8px}.selected-preview>span{font-size:9px;color:var(--muted);line-height:1.5}.preview-chip{min-width:24px;height:24px;padding:0 5px;display:grid;place-items:center;border:1px solid #268f7d;border-radius:6px;background:#0d342c;color:#8ff5df;font:800 11px 'Barlow Condensed'}.virtual-tag,.mode-pill,.history-count{border:1px solid #665039;color:#d3ad7c;border-radius:5px;padding:5px 7px;font-size:8px;font-weight:800;letter-spacing:1px}.bet-control{display:flex;align-items:center;gap:7px}.step-btn{width:39px;height:42px;border-radius:7px;background:linear-gradient(145deg,#382c1f,#1a1a14);border:1px solid #765b3d;color:#e4c398;font-size:22px;cursor:pointer}.bet-input-wrap{height:42px;flex:1;display:flex;align-items:center;background:#090f0c;border:1px solid #35473c;border-radius:7px;padding:0 10px;min-width:0}.bet-input-wrap:focus-within{border-color:var(--teal);box-shadow:0 0 0 2px #20d7b21c}.bet-input-wrap input{width:100%;min-width:0;background:none;border:0;outline:0;color:#fff;font:800 17px Manrope;font-variant-numeric:tabular-nums}.bet-input-wrap input::-webkit-inner-spin-button,.bet-input-wrap input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.bet-input-wrap span{font-size:9px;font-weight:800;color:var(--teal)}.bet-presets{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:9px}.bet-presets button{padding:7px 2px;border:1px solid #34453a;background:#17211b;color:#aebdb2;border-radius:5px;font:800 10px Manrope;cursor:pointer}.bet-presets button:hover,.bet-presets button.preset-active{border-color:#98734c;color:#e7c18e;background:#292116}.potential-card{margin-top:13px;padding:11px 12px;border:1px solid #286454;border-radius:8px;background:linear-gradient(110deg,#0b211b,#10231b);position:relative}.potential-card small{display:block;font-size:8px;letter-spacing:1px;color:#8ba99b}.potential-card strong{display:block;font:800 23px 'Barlow Condensed';color:var(--teal);margin-top:3px}.potential-card p{font-size:8px;color:#81988b;margin:4px 0 0}.potential-mark{position:absolute;right:13px;top:13px;font-size:20px;color:#44d7a9}.board-panel{padding:18px 18px 13px;display:flex;flex-direction:column;justify-content:center}.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.board-legend{display:flex;gap:12px}.board-legend span{font-size:8px;color:var(--muted);display:flex;align-items:center;gap:5px}.board-legend i{width:7px;height:7px;border-radius:2px;background:var(--teal)}.board-legend .legend-hit{background:var(--bronze)}.number-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}.num{position:relative;aspect-ratio:1;min-width:0;border:1px solid #2c4439;border-radius:8px;background:linear-gradient(145deg,#1a2821,#101813);color:#dce9df;font:800 clamp(13px,1.55vw,20px) 'Barlow Condensed';cursor:pointer;box-shadow:inset 0 1px #ffffff0a,0 3px 7px #0005;transition:transform .15s,border-color .15s,background .2s,box-shadow .2s; -webkit-tap-highlight-color:transparent}.num:hover{border-color:#4d8b75;transform:translateY(-2px)}.num:focus-visible{outline:2px solid var(--teal);outline-offset:2px}.num.selected{color:#041713;border-color:#4df0d0;background:linear-gradient(145deg,#62f5d8,#16b99c);box-shadow:0 0 14px #20d9b65c,inset 0 1px #ffffff99}.num.draw-reveal{border-color:#e2b47d;background:linear-gradient(145deg,#60472d,#302418);color:#ffe0ae;box-shadow:0 0 18px #c28e4a55;animation:reveal .35s ease both}.num.hit{border-color:#f0c58e;background:linear-gradient(145deg,#e0b77d,#94683e);color:#1b150e;box-shadow:0 0 17px #d9a66a88,inset 0 1px #fff8;animation:hitPulse .65s ease both}.num.hit:after{content:"✦";position:absolute;right:4px;top:1px;font:9px Arial;color:#fff4d8}.num.miss{opacity:.3;filter:saturate(.4)}.num:disabled{cursor:default}.board-foot{display:flex;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid #293a30;color:var(--muted);font-size:8px;letter-spacing:1px}.board-foot b{color:var(--teal);font-size:8px}.board-foot i{font-style:normal;color:var(--bronze);padding:0 4px}.risk-list{display:grid;gap:6px}.risk{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:9px 10px;border:1px solid #2b3c32;border-radius:7px;background:#121b16;color:#dce8de;cursor:pointer;transition:.2s}.risk-glyph{width:28px;height:28px;display:grid;place-items:center;border-radius:6px;background:#202d25;color:#a5b8aa;font-size:16px}.risk b{display:block;font-size:9px;letter-spacing:1px}.risk small{display:block;font-size:8px;color:var(--muted);margin-top:2px}.risk>i{font-size:8px;color:transparent;margin-left:auto}.risk:hover{border-color:#657c69}.risk.active{border-color:#2dcdb0;background:linear-gradient(90deg,#10352b,#17221b);box-shadow:inset 3px 0 var(--teal),0 0 15px #00d4aa13}.risk.active .risk-glyph{background:#145747;color:#6df6d7}.risk.active b,.risk.active>i{color:var(--teal)}.payout-panel{flex:1}.payout-caption{display:flex;justify-content:space-between;padding:7px 9px;background:#0b120e;border-radius:5px;color:var(--muted);font-size:8px;letter-spacing:1px}.payout-list{display:grid;gap:2px;margin-top:5px}.payout-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid #26362d;font-size:10px;color:#b6c5ba}.payout-row strong{font:800 14px 'Barlow Condensed';color:var(--teal)}.payout-row.best{background:#18342a;border:1px solid #2e745d;border-radius:5px}.payout-row.best strong{color:#a8ffdf;text-shadow:0 0 10px #2fe0b5aa}.payout-row.no-pay strong{color:#64766b}.table-empty{font-size:9px;text-align:center;color:var(--muted);padding:17px 4px}.payout-foot{font-size:8px;color:var(--muted);text-align:center;margin-top:9px}.play-dock{margin:15px 0 14px;padding:13px 17px;border:1px solid #6c573c;border-radius:12px;background:linear-gradient(100deg,#17251d,#101813 45%,#17241b);display:grid;grid-template-columns:1fr minmax(220px,360px) 1fr;align-items:center;gap:15px;box-shadow:0 10px 35px #0007,inset 0 1px #e6c28b20}.dock-copy{display:flex;align-items:center}.dock-copy .live-dot{flex:none}.dock-copy b,.dock-copy small{display:block}.dock-copy b{font-size:9px;letter-spacing:1.3px}.dock-copy small{font-size:8px;color:var(--muted);margin-top:4px;letter-spacing:.7px}.play-btn{height:53px;display:flex;align-items:center;justify-content:center;gap:12px;border:1px solid #67e7c1;border-radius:8px;background:linear-gradient(100deg,#087b65,#13c59c 52%,#80d69b);color:#041b14;font:900 18px 'Barlow Condensed';letter-spacing:3px;cursor:pointer;box-shadow:0 0 20px #13c69a3d,inset 0 1px #ffffff8c;transition:transform .15s,filter .15s}.play-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.play-btn:active{transform:scale(.99)}.play-btn:disabled{opacity:.55;cursor:wait}.play-btn b{margin-left:auto;padding-right:15px;font-size:21px}.play-icon{font-size:12px}.dock-note{text-align:right;color:var(--muted);font-size:8px;letter-spacing:1px}.dock-note span{color:var(--bronze);padding:0 5px}.round-panel,.history-panel{padding:17px 19px;margin-bottom:14px}.round-head{display:flex;align-items:center;justify-content:space-between}.round-badge{font-size:8px;letter-spacing:1px;color:var(--muted);border:1px solid #35443a;padding:6px 9px;border-radius:5px}.round-badge.win{color:var(--teal);border-color:#267d68;background:#0d2b23}.round-badge.loss{color:#c89b70;border-color:#6a5037}.drawn-row{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin:14px 0}.drawn-ball{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:1px solid #926b43;background:radial-gradient(circle at 35% 25%,#7b6040,#302418 75%);color:#f1d0a0;font:800 16px 'Barlow Condensed';box-shadow:0 0 12px #b27a3d22;animation:ballIn .35s ease both}.drawn-ball.match{border-color:#47e5c2;background:radial-gradient(circle at 35% 25%,#5ef1d0,#08745e 75%);color:#05251d;box-shadow:0 0 15px #2be0b866}.round-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.round-summary>div{padding:10px 12px;background:#0c130f;border:1px solid #293a30;border-radius:7px}.round-summary small{display:block;font-size:7px;letter-spacing:1px;color:var(--muted)}.round-summary b{display:block;font:800 18px 'Barlow Condensed';margin-top:5px;color:#e8f1e9}.round-summary b.positive{color:var(--teal)}.round-summary b.negative{color:var(--red)}.history-list{display:grid;gap:0}.history-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:15px;padding:10px 4px;border-bottom:1px solid #26372e;font-size:9px}.history-row:last-child{border-bottom:0}.history-main b{display:block;font-size:9px}.history-main small{display:block;color:var(--muted);font-size:8px;margin-top:4px}.history-numbers{color:#92a79a;font-size:8px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.history-value{font:800 15px 'Barlow Condensed';color:var(--teal);white-space:nowrap}.history-value.loss{color:#c98d70}.history-empty{text-align:center;color:var(--muted);font-size:10px;padding:20px 0}.history-count{color:var(--muted);border-color:#3a493e}footer{display:flex;align-items:center;justify-content:space-between;padding:15px 3px;color:#64766b;font-size:7px;letter-spacing:1.4px}.footer-brand{font:900 15px 'Barlow Condensed';color:#d9e2db;letter-spacing:1px}.footer-brand i{font-style:italic;color:var(--teal)}.toast{position:fixed;z-index:20;left:50%;bottom:24px;transform:translate(-50%,15px);opacity:0;pointer-events:none;padding:12px 17px;border:1px solid #9c7952;border-radius:8px;background:#211b13;color:#f1d3a5;font-size:10px;font-weight:800;box-shadow:0 10px 35px #0009;transition:.22s;max-width:calc(100% - 30px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.is-drawing .number-grid{pointer-events:none}@keyframes reveal{0%{transform:scale(.82);filter:brightness(.7)}65%{transform:scale(1.1);filter:brightness(1.4)}100%{transform:scale(1);filter:brightness(1)}}@keyframes hitPulse{0%{transform:scale(.8)}55%{transform:scale(1.13)}100%{transform:scale(1)}}@keyframes ballIn{from{transform:scale(.65) translateY(5px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-@media(min-width:1200px){.app-shell{padding-left:42px;padding-right:42px}.game-layout{grid-template-columns:minmax(245px,.86fr) minmax(500px,1.75fr) minmax(250px,.9fr)}.number-grid{gap:10px}.num{font-size:22px}.selection-panel,.stake-panel,.risk-panel,.payout-panel{padding:19px}}
-@media(max-width:950px){.app-shell{padding:0 18px 22px}.game-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}.left-column{grid-column:1;grid-row:1}.board-panel{grid-column:2;grid-row:1 / span 2}.right-column{grid-column:1;grid-row:2}.risk-list{grid-template-columns:repeat(2,1fr)}.risk{padding:7px}.payout-panel{display:none}.play-dock{grid-template-columns:1fr minmax(190px,300px)}.dock-note{display:none}}
-@media(max-width:620px){.app-shell{padding:0 11px 18px}.topbar{height:72px}.brand-symbol{width:39px;height:39px}.brand-symbol span{font-size:30px}.brand-word strong{font-size:23px}.brand-word em{font-size:17px}.brand-word small{font-size:6px}.top-actions{gap:6px}.balance-card{padding:8px 9px;gap:7px}.wallet-icon{font-size:19px}.balance-card small{font-size:6px}.balance-card strong{font-size:11px}.balance-card i{font-size:8px}.icon-btn{width:34px;height:34px;font-size:16px}.hero-line{padding:23px 2px 17px}.hero-line h1{font-size:38px}.hero-line p{font-size:10px}.draw-info{padding:7px 10px;gap:8px}.draw-info b{font-size:30px}.draw-info span{font-size:7px}.game-layout{display:flex;flex-direction:column;gap:10px}.board-panel{order:0;padding:14px 12px 11px}.left-column{display:grid;grid-template-columns:1fr 1fr;gap:9px;order:1}.right-column{order:2}.selection-panel,.stake-panel{padding:12px 10px}.panel-heading{margin-bottom:10px}.panel-heading h2,.board-top h2,.round-head h2{font-size:16px}.panel-heading .overline,.board-top .overline,.round-head .overline{font-size:7px;letter-spacing:1.2px}.counter{font-size:18px}.selected-preview{min-height:45px}.preview-chip{min-width:21px;height:21px;font-size:10px}.text-btn{font-size:8px}.bet-control{gap:4px}.step-btn{width:28px;min-width:28px;height:36px;font-size:17px}.bet-input-wrap{height:36px;padding:0 6px}.bet-input-wrap input{font-size:13px}.bet-input-wrap span{font-size:7px}.bet-presets{gap:3px;margin-top:7px}.bet-presets button{font-size:8px;padding:6px 1px}.potential-card{margin-top:8px;padding:8px}.potential-card small{font-size:6px}.potential-card strong{font-size:18px}.potential-card p{font-size:7px}.virtual-tag{font-size:6px;padding:4px}.number-grid{gap:6px}.num{border-radius:6px;font-size:clamp(14px,4vw,19px)}.board-top{margin-bottom:12px}.board-legend{gap:8px}.board-legend span{font-size:7px}.board-foot{margin-top:10px;padding-top:8px}.risk-panel{padding:13px}.risk-list{grid-template-columns:repeat(4,1fr);gap:5px}.risk{display:flex;flex-direction:column;gap:4px;text-align:center;padding:8px 3px;position:relative}.risk-glyph{width:24px;height:22px;font-size:13px}.risk b{font-size:8px}.risk small{font-size:7px}.risk>i{position:absolute;right:5px;top:4px;font-size:6px}.payout-panel{display:block;padding:13px}.payout-panel .panel-heading{margin-bottom:8px}.payout-caption{font-size:7px}.payout-row{padding:5px 9px;font-size:9px}.payout-row strong{font-size:13px}.play-dock{grid-template-columns:1fr;padding:10px;gap:8px;margin:10px 0}.dock-copy{display:none}.play-btn{height:49px;font-size:17px}.dock-note{display:block;text-align:center;font-size:7px}.round-panel,.history-panel{padding:13px 11px;margin-bottom:10px}.drawn-row{gap:4px;margin:12px 0}.drawn-ball{font-size:13px}.round-summary{grid-template-columns:repeat(2,1fr);gap:5px}.round-summary>div{padding:8px}.round-summary small{font-size:6px}.round-summary b{font-size:16px}.history-row{gap:7px;grid-template-columns:1fr auto}.history-numbers{display:none}.history-main b{font-size:8px}.history-value{font-size:13px}footer{gap:8px;font-size:6px;letter-spacing:.7px}.footer-brand{font-size:13px}}
-@media(max-width:370px){.left-column{grid-template-columns:1fr}.selected-preview{min-height:28px}.selection-panel,.stake-panel{padding:12px}.balance-card{padding:7px}.brand{gap:8px}.hero-line h1{font-size:34px}.num{font-size:13px}.risk small{font-size:6px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+:root {
+  --bg: #031211;
+  --panel: rgba(3, 25, 24, .94);
+  --teal: #20d8d1;
+  --teal-dark: #087b78;
+  --gold: #e9b95e;
+  --white: #e8f2f1;
+  --muted: #8caeaa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 22px;
+  color: var(--white);
+  background:
+    radial-gradient(ellipse at 50% 30%, #073c38 0%, transparent 55%),
+    linear-gradient(135deg, #020c0c, #06201e 55%, #010808);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+}
+
+.background-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .15;
+  background: repeating-linear-gradient(
+    130deg,
+    transparent 0 180px,
+    #0baca5 181px 183px,
+    transparent 184px 340px
+  );
+}
+
+.topbar {
+  max-width: 1500px;
+  margin: 0 auto 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand, .top-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  font-size: 55px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--teal);
+  letter-spacing: -8px;
+  padding-right: 25px;
+  border-right: 2px solid #8cc7c2;
+}
+
+.brand-name > div {
+  font-size: clamp(25px, 4vw, 48px);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+}
+
+.brand-name span {
+  color: var(--teal);
+}
+
+.brand-name small {
+  display: block;
+  margin-top: 5px;
+  letter-spacing: 5px;
+  font-size: 11px;
+  color: #c1d2cf;
+}
+
+.balance-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  border: 1px solid #176c68;
+  border-radius: 24px;
+  background: var(--panel);
+}
+
+.coin {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--teal);
+  box-shadow: 0 0 15px #12bdb5;
+  font-weight: bold;
+}
+
+.balance-card small, .balance-card strong {
+  display: block;
+}
+
+.balance-card strong {
+  color: var(--teal);
+  font-size: 29px;
+  margin-top: 5px;
+}
+
+.audio-control {
+  text-align: center;
+  min-width: 90px;
+}
+
+.audio-button {
+  width: 90px;
+  height: 86px;
+  border: 1px solid #267d78;
+  border-radius: 20px;
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.audio-button span {
+  font-size: 27px;
+  color: var(--teal);
+}
+
+.audio-button b {
+  color: var(--teal);
+}
+
+.audio-control input {
+  width: 95px;
+  accent-color: var(--teal);
+  margin: 9px 0 2px;
+}
+
+.audio-control > small {
+  color: #d1dedb;
+}
+
+.layout {
+  max-width: 1500px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(280px, 1.05fr);
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.game-panel, .history-box, .risk-box, .payout-box {
+  background: var(--panel);
+  border: 1px solid #168d87;
+  border-radius: 28px;
+  box-shadow: inset 0 0 18px rgba(10, 180, 170, .08);
+}
+
+.game-panel {
+  padding: 22px;
+}
+
+.game-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--teal);
+  font-weight: bold;
+  font-size: 19px;
+  margin: 0 5px 12px;
+}
+
+.game-heading div {
+  color: var(--white);
+}
+
+.game-heading b {
+  color: var(--teal);
+}
+
+.difficulty {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #20534f;
+}
+
+.difficulty button, .risk-options button {
+  flex: 1;
+  border: 1px solid #397a75;
+  border-radius: 16px;
+  background: linear-gradient(#092321, #031110);
+  padding: 14px 8px;
+  font-weight: bold;
+}
+
+.difficulty button.active, .risk-options button.active {
+  background: linear-gradient(135deg, #12aaa3, #075d59);
+  border-color: #5df9ed;
+  box-shadow: 0 0 15px rgba(30, 230, 220, .45);
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.number {
+  min-width: 0;
+  aspect-ratio: 1.4;
+  border: 1px solid #43817d;
+  border-radius: 16px;
+  color: #e7eeee;
+  font-size: clamp(20px, 3vw, 36px);
+  font-weight: bold;
+  background: linear-gradient(145deg, #102c2a, #031312 75%);
+  box-shadow: 0 5px 9px #0008, inset 0 1px 8px #ffffff0b;
+  transition: .18s ease;
+}
+
+.number:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+
+.number.selected {
+  background: linear-gradient(145deg, #16aaa2, #07534f);
+  border: 2px solid #7ffcf2;
+  box-shadow: 0 0 15px #11cfc4;
+}
+
+.number.drawn {
+  color: #101a18;
+  background: linear-gradient(145deg, #f0ca79, #a66b22);
+  border-color: #ffe1a0;
+  animation: reveal .35s ease;
+}
+
+.number.hit {
+  color: white;
+  background: linear-gradient(145deg, #14c9b7, #08736c);
+  box-shadow: 0 0 20px #17d8cb;
+}
+
+@keyframes reveal {
+  from { transform: scale(.65); opacity: .3; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.draw-status {
+  min-height: 24px;
+  margin-top: 16px;
+  color: var(--teal);
+  text-align: center;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.history-title {
+  border: 1px solid #238e88;
+  border-radius: 23px;
+  background: var(--panel);
+  padding: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.history-title span {
+  font-size: 38px;
+  color: var(--teal);
+}
+
+.history-title b {
+  color: var(--teal);
+  font-size: 32px;
+}
+
+.history-box, .risk-box, .payout-box {
+  padding: 17px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 14px;
+  font-size: 17px;
+}
+
+.stat-row b {
+  color: var(--white);
+}
+
+.stat-row .gold {
+  color: var(--gold);
+}
+
+.history-list {
+  border-top: 1px solid #31524e;
+  padding-top: 8px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.history-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  color: var(--muted);
+  font-size: 13px;
+  border-bottom: 1px solid #173b37;
+}
+
+.risk-box h3, .payout-box h3 {
+  text-align: center;
+  margin: 0 0 12px;
+  color: var(--gold);
+}
+
+.risk-options {
+  display: flex;
+  gap: 5px;
+}
+
+.risk-options button {
+  padding: 10px 3px;
+  font-size: 12px;
+}
+
+.risk-options strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 17px;
+}
+
+.payout-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 3px;
+  border-bottom: 1px solid #28413d;
+  font-size: 14px;
+}
+
+.payout-row b {
+  color: var(--teal);
+}
+
+.payout-note {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.bottom-controls {
+  max-width: 1500px;
+  margin: 30px auto 0;
+  display: flex;
+  align-items: stretch;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.play-button {
+  flex: 1.7;
+  min-height: 115px;
+  border: 3px solid #f5d28a;
+  border-radius: 27px;
+  background: linear-gradient(135deg, #f8d98e, #b77c2b 65%, #f1c36d);
+  color: #160f06;
+  font-size: clamp(24px, 4vw, 45px);
+  font-weight: 900;
+  box-shadow: 0 0 22px #dba64c66, inset 0 0 12px #fff8;
+}
+
+.play-button span {
+  margin-right: 15px;
+}
+
+.play-button:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.bet-box {
+  flex: 1.2;
+  min-width: 180px;
+  border: 1px solid #1eaaa2;
+  border-radius: 25px;
+  background: var(--panel);
+  padding: 10px;
+  text-align: center;
+}
+
+.bet-title {
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.bet-adjust {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bet-adjust button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--teal);
+  background: #062522;
+  font-size: 27px;
+}
+
+.bet-adjust input {
+  width: 100%;
+  min-width: 0;
+  color: white;
+  background: #020d0c;
+  border: 1px solid #286d68;
+  border-radius: 12px;
+  padding: 8px 2px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.bet-box small {
+  color: var(--gold);
+}
+
+.bet-box small span {
+  color: white;
+}
+
+.bet-action {
+  min-width: 85px;
+  border: 1px solid #208a84;
+  border-radius: 23px;
+  background: var(--panel);
+  padding: 12px 8px;
+}
+
+.bet-action strong {
+  display: block;
+  font-size: 30px;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.bet-action span {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.max-action strong {
+  color: var(--gold);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, 100px);
+  opacity: 0;
+  z-index: 5;
+  padding: 13px 22px;
+  border: 1px solid var(--teal);
+  border-radius: 14px;
+  background: #052321;
+  transition: .25s;
+  text-align: center;
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+@media (max-width: 1000px) {
+  .topbar {
+    flex-wrap: wrap;
+  }
+
+  .top-right {
+    flex-wrap: wrap;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .side-panel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .history-title {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 650px) {
+  body {
+    padding: 12px;
+  }
+
+  .brand-name > div {
+    font-size: 25px;
+  }
+
+  .brand-name small {
+    letter-spacing: 2px;
+    font-size: 8px;
+  }
+
+  .logo {
+    font-size: 38px;
+    padding-right: 14px;
+  }
+
+  .top-right {
+    gap: 8px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .balance-card {
+    padding: 8px;
+  }
+
+  .coin {
+    width: 48px;
+    height: 48px;
+    font-size: 12px;
+  }
+
+  .balance-card strong {
+    font-size: 22px;
+  }
+
+  .audio-button {
+    width: 72px;
+    height: 68px;
+  }
+
+  .audio-control input {
+    width: 72px;
+  }
+
+  .game-panel {
+    padding: 12px;
+    border-radius: 19px;
+  }
+
+  .game-heading {
+    font-size: 13px;
+  }
+
+  .difficulty {
+    gap: 5px;
+  }
+
+  .difficulty button {
+    padding: 10px 2px;
+    font-size: 10px;
+  }
+
+  .number-grid {
+    gap: 6px;
+  }
+
+  .number {
+    border-radius: 9px;
+    aspect-ratio: 1.2;
+  }
+
+  .side-panel {
+    display: flex;
+  }
+
+  .bottom-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .play-button {
+    flex-basis: 100%;
+    min-height: 85px;
+  }
+
+  .bet-box {
+    flex: 1 1 100%;
+  }
+
+  .bet-action {
+    flex: 1;
+    min-width: 0;
+  }
+}
