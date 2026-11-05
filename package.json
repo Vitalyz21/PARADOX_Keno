@@ -1,0 +1,10 @@
+{
+  "name": "paradox-keno",
+  "version": "2.0.0",
+  "private": true,
+  "description": "PARADOX KENO - responsive Keno game with virtual USDP credits",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "dev": "node --watch server.js" },
+  "engines": { "node": ">=22" },
+  "dependencies": { "better-sqlite3": "^11.8.1", "express": "^4.21.2" }
+}
